@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<maxCompilerManager version="2">
-<enginePart internalEngineSubproject="MatrixVectorFullyUnrolled_EngineCode" isSrcBin="false" isUseDefaultSelected="false" outputLocation="/MatrixVectorFullyUnrolled_EngineCode/bin" projectName="MatrixVectorFullyUnrolled"/>
-<cpuPart internalCpuSubproject="MatrixVectorFullyUnrolled_CPUCode"/>
-<watchedFiles/>
-</maxCompilerManager>
