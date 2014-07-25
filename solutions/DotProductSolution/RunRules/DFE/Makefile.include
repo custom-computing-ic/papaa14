@@ -29,6 +29,8 @@ ifndef MAXCOMPILERDIR
 endif
 
 export ANT_MAXELER_INTERNAL_MAXIDE_JARS = $(subst :,;,$(MAXELER_INTERNAL_MAXIDE_JARS))
+export MAXCOMPILER_ACTIVITY_FILE = $(THIS_PATH)/.maxcompiler-activity.be
+
 
 MAXCC ?= $(MAXCOMPILERDIR_QUOTE)/lib/gcc/bin/gcc
 MAXCXX ?= $(MAXCOMPILERDIR_QUOTE)/lib/gcc/bin/g++
@@ -53,8 +55,6 @@ OBJDIR := $(THIS_PATH)objects
 BINDIR := $(THIS_PATH)binaries
 MAXDIR := $(THIS_PATH)maxfiles
 INCDIR := $(THIS_PATH)include
-
-export MAXCOMPILER_BUILD_CONF = build.copy_results_to=$(MAXDIR)
 
 MAXIDEDIR?=$(MAXCOMPILERDIR_QUOTE)/lib/MaxIDE
 PORT_NAME_SIM?=
@@ -89,7 +89,9 @@ $(OBJDIR)/slic_DotProduct.o: $(MAXDIR)/DotProduct.max
 	$(SLICCOMPILE) "$<" "$@"
 
 $(MAXDIR)/DotProduct.max: 
-	cd "$(THIS_PATH)/" && if [ -z "$${MAXCOMPILER_BUILD_DIR+xxx}" ]; then export MAXCOMPILER_BUILD_DIR="$(realpath $(MAXDIR))"; fi ;  export MAX_BUILDPARAMS="DFEModel='VECTIS' target='DFE' maxFileName='DotProduct' " ; ant -v -f "DotProduct.xml" run
+	cd "$(THIS_PATH)/" && if [ -z "$${MAXCOMPILER_BUILD_DIR+xxx}" ]; then export MAXCOMPILER_BUILD_DIR="$(realpath $(MAXDIR))"; fi ;  export MAX_BUILDPARAMS="DFEModel='VECTIS' target='DFE' maxFileName='DotProduct' " ; ant -v -f "DotProduct.xml" run 2>&1 | tee DotProduct_cmd.log
+	cp "`grep -o -e "^.*MaxFile: .*\.max" $(THIS_PATH)/DotProduct_cmd.log | cut -d ':'  -f 4 | sed 's/^ //g'`" "$(MAXDIR)/DotProduct.max"
+	cp "`grep -o -e "^.*MaxFile: .*\.max" $(THIS_PATH)/DotProduct_cmd.log | cut -d ':'  -f 4 | sed 's/^ //g' | sed 's/\.max/.h/g'`" "$(MAXDIR)/DotProduct.h"
 	cp -f "$(MAXDIR)/"*.h "$(INCDIR)/"
 
 
@@ -111,7 +113,7 @@ EXE_SO_NAME=DotProduct
 LIBLDFLAGS=
 LIBGCCFLAGS=
 
-RUNENV=export LD_LIBRARY_PATH=$$MAXELEROSDIR/lib:$$LD_LIBRARY_PATH ; 
+RUNENV=export LD_LIBRARY_PATH="$$MAXELEROSDIR/lib:$$LD_LIBRARY_PATH" ; 
 
 RUNARGS?=
 

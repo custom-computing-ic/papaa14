@@ -6,6 +6,7 @@
 	<manageMaxGenFD>false</manageMaxGenFD>
 	<manageMaxBlox>false</manageMaxBlox>
 	<maxelerVersion>1.0</maxelerVersion>
+	<maxelerBuildSystemVersion></maxelerBuildSystemVersion>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -17,5 +18,6 @@
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>com.maxeler.maxcompiler.core.MaxCompilerFragmentNature</nature>
 	</natures>
 </projectDescription>
