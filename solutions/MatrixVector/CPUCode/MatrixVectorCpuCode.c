@@ -24,7 +24,7 @@ int main(void) {
 	}
 
 	printf("Running on DFE.\n");
-	MatrixVector(n, 1, x, a, out);
+	MatrixVector(x, *a, out);
 
 	prettyPrint();
 

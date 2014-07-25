@@ -20,7 +20,6 @@ class MatrixVectorKernel extends Kernel {
 
 		DFEVectorType<DFEVar> vectorType = new DFEVectorType<DFEVar>(scalarType, K);
 
-		// count 0..K-1
 		DFEVar count = control.count.simpleCounter(counterWidth, K);
 
 		// Input: line of matrix and vector
