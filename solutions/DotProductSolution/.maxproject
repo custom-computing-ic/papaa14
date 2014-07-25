@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<maxCompilerManager>
+<enginePart internalEngineSubproject="DotProductSolution_EngineCode" isSrcBin="false" isUseDefaultSelected="false" outputLocation="/DotProductSolution_EngineCode/bin" projectName="DotProductSolution"/>
+<cpuPart internalCpuSubproject="DotProductSolution_CPUCode"/>
+<watchedFiles/>
+</maxCompilerManager>

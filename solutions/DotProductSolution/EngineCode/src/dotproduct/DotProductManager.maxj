@@ -1,0 +1,39 @@
+package dotproduct;
+
+import com.maxeler.maxcompiler.v2.build.EngineParameters;
+import com.maxeler.maxcompiler.v2.kernelcompiler.Kernel;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.CPUTypes;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.EngineInterface;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.InterfaceParam;
+import com.maxeler.maxcompiler.v2.managers.standard.Manager;
+import com.maxeler.maxcompiler.v2.managers.standard.Manager.IOType;
+
+public class DotProductManager {
+
+	private static final String s_kernelName = "DotProductKernel";
+	private static final int L = 4;
+
+	public static void main(String[] args) {
+		Manager manager = new Manager(new EngineParameters(args));
+		Kernel kernel   = new DotProductKernel(manager.makeKernelParameters(s_kernelName), L);
+		manager.setKernel(kernel);
+		manager.setIO(IOType.ALL_CPU);
+		manager.createSLiCinterface(interfaceDefault());
+		manager.build();
+	}
+
+	private static EngineInterface interfaceDefault() {
+		EngineInterface ei = new EngineInterface();
+		CPUTypes   type = CPUTypes.INT32;
+		int        size = type.sizeInBytes();
+
+		InterfaceParam  N    = ei.addParam("N", CPUTypes.INT);
+
+		ei.setTicks(s_kernelName, N);
+		ei.setStream("x",   type, L * N * size);
+		ei.setStream("y",   type, L * N * size);
+		ei.setStream("s", type, N * size);
+		return ei;
+	}
+
+}
