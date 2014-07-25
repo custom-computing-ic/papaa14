@@ -6,6 +6,7 @@
 	<manageMaxGenFD>false</manageMaxGenFD>
 	<manageMaxBlox>false</manageMaxBlox>
 	<maxelerVersion></maxelerVersion>
+	<maxelerBuildSystemVersion></maxelerBuildSystemVersion>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -82,5 +83,6 @@
 		<nature>org.eclipse.cdt.core.cnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+		<nature>com.maxeler.maxcompiler.core.MaxCompilerFragmentNature</nature>
 	</natures>
 </projectDescription>
