@@ -1,0 +1,17 @@
+# --- User's custom definitions
+
+# ---
+
+MAXCOMPILER_QUOTE   := $(shell printf %q "$(MAXCOMPILERDIR)")
+
+RUNRULE_ARGS        := 
+RUNRULE_RUNENV      := MAXELEROSDIR="$(MAXCOMPILERDIR)/lib/maxeleros-sim" LD_LIBRARY_PATH="$(MAXCOMPILERDIR)/lib/maxeleros-sim/lib:$$LD_LIBRARY_PATH" SLIC_CONF="use_simulation=deMatrixVector;"  
+RUNRULE_MAXFILES    := MatrixVector.max  
+RUNRULE_MAXFILES_H  := MatrixVector.h 
+RUNRULE_CFLAGS      := 
+RUNRULE_LDFLAGS     := 
+
+TARGET_EXEC         := MatrixVector
+TARGET_LIBRARY      := 
+
+

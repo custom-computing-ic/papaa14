@@ -1,0 +1,43 @@
+package matrixvector;
+
+import com.maxeler.maxcompiler.v2.build.EngineParameters;
+import com.maxeler.maxcompiler.v2.kernelcompiler.Kernel;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.CPUTypes;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.EngineInterface;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.InterfaceParam;
+import com.maxeler.maxcompiler.v2.managers.standard.Manager;
+import com.maxeler.maxcompiler.v2.managers.standard.Manager.IOType;
+
+class MatrixVectorManager {
+
+	// matrix and vector dimensions, must match software
+	private static final int N = 4;
+
+	public static void main(String[] args) {
+		Manager m = new Manager(new EngineParameters(args));
+		m.addMaxFileConstant("N", N);
+
+		Kernel kernel = new MatrixVectorKernel(m.makeKernelParameters(), N);
+		m.setKernel(kernel);
+		m.createSLiCinterface(interfaceDefault());
+		m.setIO(IOType.ALL_CPU);
+
+		m.build();
+	}
+
+	private static EngineInterface interfaceDefault() {
+		EngineInterface ei = new EngineInterface();
+		InterfaceParam height = ei.addParam("height", CPUTypes.INT);
+		InterfaceParam numMults = ei.addParam("numMuls", CPUTypes.INT);
+		InterfaceParam inMatSizeInBytes = numMults * height * N * CPUTypes.FLOAT.sizeInBytes();
+		InterfaceParam inVecSizeInBytes = numMults * N * CPUTypes.FLOAT.sizeInBytes();
+		InterfaceParam outSizeInBytes = numMults * N * CPUTypes.FLOAT.sizeInBytes();
+
+		ei.setTicks("MatrixVectorKernel", numMults * N);
+
+		ei.setStream("inMat", CPUTypes.FLOAT, inMatSizeInBytes);
+		ei.setStream("inVec", CPUTypes.FLOAT, inVecSizeInBytes);
+		ei.setStream("output", CPUTypes.FLOAT, outSizeInBytes);
+		return ei;
+	}
+}
