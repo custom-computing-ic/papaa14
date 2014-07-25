@@ -7,26 +7,32 @@
 
 #define n MatrixVector_N
 
-float x[n], a[n][n], expected[n], out[n];
+float x[n], a[n][n], tr[n][n], out[n];
 
 void prettyPrint();
+
+void check();
 
 int main(void) {
 
 	// Generate input data and expected results
 	for (int i = 0; i < n; ++i) {
 		x[i] = random() % 100;
-		expected[i] = 0;
-		for (int j = 0; j < n; j++) {
+		for (int j = 0; j < n; j++)
 			a[i][j] = random() % 100;
-			expected[i] += x[i] * a[i][j];
-		}
 	}
 
+	// must transpose matrix first
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			tr[i][j] = a[j][i];
+
 	printf("Running on DFE.\n");
-	MatrixVector(x, *a, out);
+	MatrixVector(*tr, x, out);
 
 	prettyPrint();
+
+	check();
 
 	printf("Done.\n");
 	return 0;
@@ -59,5 +65,16 @@ void prettyPrint() {
 			else
 				printf("       ");
 		printf("\n");
+	}
+}
+
+void check() {
+	for (int i = 0; i < n; ++i) {
+		float expected = 0;
+		for (int j = 0; j < n; j++) {
+			expected += x[j] * a[j][i];
+		}
+		if (expected != out[i])
+			printf("Error! Expected: %.3f, got %.3f\n", expected, out[i]);
 	}
 }
