@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<maxCompilerManager>
+<enginePart internalEngineSubproject="MatrixMultiplierSolution_EngineCode" isSrcBin="false" isUseDefaultSelected="false" outputLocation="/MatrixMultiplierSolution_EngineCode/bin" projectName="MatrixMultiplierSolution"/>
+<cpuPart internalCpuSubproject="MatrixMultiplierSolution_CPUCode"/>
+<watchedFiles/>
+</maxCompilerManager>
