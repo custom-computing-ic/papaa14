@@ -1,0 +1,36 @@
+package matrixvector;
+
+import com.maxeler.maxcompiler.v2.build.EngineParameters;
+import com.maxeler.maxcompiler.v2.kernelcompiler.Kernel;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.CPUTypes;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.EngineInterface;
+import com.maxeler.maxcompiler.v2.managers.standard.Manager;
+import com.maxeler.maxcompiler.v2.managers.standard.Manager.IOType;
+
+class MatrixVectorManager {
+
+	// matrix and vector dimensions, must match software
+	private static final int N = 4;
+
+	public static void main(String[] args) {
+		Manager m = new Manager(new EngineParameters(args));
+		m.addMaxFileConstant("N", N);
+
+		Kernel kernel = new MatrixVectorKernel(m.makeKernelParameters(), N);
+		m.setKernel(kernel);
+		m.createSLiCinterface(interfaceDefault());
+		m.setIO(IOType.ALL_CPU);
+
+		m.build();
+	}
+
+	private static EngineInterface interfaceDefault() {
+		EngineInterface ei = new EngineInterface();
+		ei.setTicks("MatrixVectorKernel", 1);
+		CPUTypes type = CPUTypes.FLOAT;
+		ei.setStream("inMat", type, N * N * type.sizeInBytes());
+		ei.setStream("inVec", type,  N * type.sizeInBytes());
+		ei.setStream("output", type, N * type.sizeInBytes());
+		return ei;
+	}
+}

@@ -1,0 +1,41 @@
+package matrixvector;
+
+import com.maxeler.maxcompiler.v2.kernelcompiler.Kernel;
+import com.maxeler.maxcompiler.v2.kernelcompiler.KernelParameters;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFEType;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFEVar;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEVector;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEVectorType;
+
+class MatrixVectorKernel extends Kernel {
+
+	final DFEType scalarType = dfeFloat(8, 24);
+
+	//final int counterWidth = 32;
+
+	MatrixVectorKernel(KernelParameters parameters, int N) {
+		super(parameters);
+
+		DFEVectorType<DFEVar> inVectorType = new DFEVectorType<DFEVar>(scalarType, N);
+		DFEVectorType<DFEVar> matrixType = new DFEVectorType<DFEVar>(scalarType, N * N);
+		DFEVectorType<DFEVar> outVectorType = new DFEVectorType<DFEVar>(scalarType, N);
+
+		DFEVector<DFEVar> inMat = io.input("inMat", matrixType);
+		DFEVector<DFEVar> inVec = io.input("inVec", inVectorType);
+
+		// computation
+		DFEVector<DFEVar> sumVec = outVectorType.newInstance(this);
+
+		for (int i = 0; i < N; i++)
+		{
+			DFEVar sum = constant.var(scalarType, 0.0);
+			// fully unroll dot product
+			for (int k = 0; k < N; k++)
+				sum += inMat[i * N + k] * inVec[k];
+			sumVec[i] <== sum;
+		}
+
+		// output
+		io.output("output", sumVec, outVectorType); // dot product
+	}
+}
