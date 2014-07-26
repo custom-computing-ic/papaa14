@@ -1,0 +1,7 @@
+maxfiles
+objects
+include
+binaries
+.maxcompiler-activity.be
+bin
+*.log
